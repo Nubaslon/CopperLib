@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "PeerTalk",
+        "repositoryURL": "https://github.com/treastrain/peertalk.git",
+        "state": {
+          "branch": "swift-package-manager",
+          "revision": "adb78527d8a4c8cfff83181bf5d8d9b3a8669715",
+          "version": null
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "6fe203dc33195667ce1759bf0182975e4653ba1c",
+          "version": "1.4.4"
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "b8230909dedc640294d7324d37f4c91ad3dcf177",
+          "version": "1.20.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
