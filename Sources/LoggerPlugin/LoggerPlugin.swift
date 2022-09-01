@@ -241,6 +241,7 @@ public struct LogRecord: Codable {
     }
 }
 
+@available(iOS 13.0, *)
 extension Logger.MetadataValue {
     func encodable() -> LogRecord.EncodableMetadataValue {
         switch(self){
@@ -304,6 +305,7 @@ public class CPPLogger: NSObject {
     }
 }
 
+@available(iOS 13.0, *)
 extension NSDictionary {
     var metadata: Logger.Metadata {
         return self.reduce(Logger.Metadata()) {  partialResult, value in
