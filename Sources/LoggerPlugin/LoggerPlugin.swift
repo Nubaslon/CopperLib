@@ -13,6 +13,7 @@ import CopperEncryptor
 #endif
 import Combine
 
+@available(iOS 13.0, *)
 public class LoggerPlugin: Plugin {
     let encryptionKey: EncryptedKey
     let logName: String
@@ -116,6 +117,7 @@ public class LoggerPlugin: Plugin {
     }
 }
 
+@available(iOS 13.0, *)
 class CopperLogHandler: LogHandler {
     var logLabel: String
     var logName: String
@@ -179,6 +181,7 @@ class CopperLogHandler: LogHandler {
     
 }
 
+@available(iOS 13.0, *)
 public struct LogRecord: Codable {
     public typealias Metadata = [String: EncodableMetadataValue]
     public enum EncodableMetadataValue: Codable {
@@ -253,12 +256,14 @@ extension Logger.MetadataValue {
     }
 }
 
+@available(iOS 13.0, *)
 extension Logger.Metadata {
     func encodable() -> LogRecord.Metadata {
         return self.mapValues({ $0.encodable() })
     }
 }
 
+@available(iOS 13.0, *)
 @objc
 public class CPPLogger: NSObject {
     public static var objcLogger = Logger(label: "copper.objc")

@@ -116,6 +116,7 @@ class CopperClientManager: ConnectionDeleagate {
     }
 }
 
+@available(iOS 13.0, *)
 class USBPortWrapper: NSObject, PTChannelDelegate, CopperDevice {
     weak var delegate: ReadableData?
     weak var connectionDelegate: ConnectionDeleagate?
@@ -167,6 +168,7 @@ class USBPortWrapper: NSObject, PTChannelDelegate, CopperDevice {
 }
 
 
+@available(iOS 13.0, *)
 class NetworkPort: CopperDevice {
     var info: HelloMessage?
     weak var infoDelegate: DeviceInfoDelegate?

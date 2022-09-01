@@ -17,20 +17,25 @@ import Combine
 import SwiftProtobuf
 import Network
 
+@available(iOS 13.0, *)
 public protocol ConnectionDeleagate: AnyObject {
     func didConnect(port: CopperDevice)
     func didDisconnect(port: CopperDevice)
 }
+
+@available(iOS 13.0, *)
 public protocol ReadableData: AnyObject {
     func port(didReceiveData data: Data)
     func didDisconnect()
 }
 
+@available(iOS 13.0, *)
 public protocol SendableData {
     func writeData(data: Data)
     var delegate: ReadableData? { get set }
 }
 
+@available(iOS 13.0, *)
 public class CopperProtocol: ReadableData {
     enum ManagerError: Error {
         case unknownResponse
@@ -144,17 +149,21 @@ public class CopperProtocol: ReadableData {
     }
 }
 
+@available(iOS 13.0, *)
 public protocol DeviceInfoDelegate: AnyObject {
     func didUpdateInfo(for device: CopperDevice)
 }
+
+@available(iOS 13.0, *)
 public protocol DeviceInfo {
     var info: HelloMessage? { get }
     var infoDelegate: DeviceInfoDelegate? { get }
 }
 
+@available(iOS 13.0, *)
 public typealias CopperDevice = DeviceInfo & SendableData
 
-
+@available(iOS 13.0, *)
 func == (lhs: DeviceInfo, rhs: DeviceInfo) -> Bool {
     guard let luuid = lhs.info?.deviceUuid, let ruuid = rhs.info?.deviceUuid else {
         return false

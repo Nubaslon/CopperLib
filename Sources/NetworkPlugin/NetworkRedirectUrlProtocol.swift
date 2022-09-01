@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(iOS 13.0, *)
 class NetworkRedirectUrlProtocol: URLProtocol {
     weak var session: URLSession?
     weak var sessionTask: URLSessionTask?
@@ -80,6 +81,7 @@ class NetworkRedirectUrlProtocol: URLProtocol {
     }
 }
 
+@available(iOS 13.0, *)
 class NetworkRedirectUrlSessionDelegate: NSObject, URLSessionDataDelegate {
     weak var urlProtocol: URLProtocol?
     

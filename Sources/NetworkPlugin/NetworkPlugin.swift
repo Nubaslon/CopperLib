@@ -14,8 +14,10 @@ import CopperEncryptor
 #endif
 import Combine
 
+@available(iOS 13.0, *)
 var globalNetworkHandler: NetworkHandler?
 
+@available(iOS 13.0, *)
 public class NetworkPlugin: Plugin {
     let encryptionKey: EncryptedKey
     let logName: String
@@ -109,6 +111,7 @@ public class NetworkPlugin: Plugin {
     }
 }
 
+@available(iOS 13.0, *)
 class NetworkHandler {
     let isNetworkInterceptEnabled: () -> Bool
     
@@ -247,6 +250,7 @@ class NetworkHandler {
     }
 }
 
+@available(iOS 13.0, *)
 public struct NetworkRecord: Codable {
     public struct HeaderValue: Codable, Identifiable {
         public var id: String { key }
@@ -280,10 +284,12 @@ public struct NetworkRecord: Codable {
     public let data: NetworkData
 }
 
+@available(iOS 13.0, *)
 public struct InterceptorRequest: Codable {
     public let nsUrlRequest: Data
 }
 
+@available(iOS 13.0, *)
 public struct InterceptorResponse: Codable {
     public let nsUrlResponse: Data?
     public let body: Data?

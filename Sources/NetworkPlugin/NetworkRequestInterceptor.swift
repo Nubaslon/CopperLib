@@ -8,6 +8,7 @@
 import Foundation
 
 
+@available(iOS 13.0, *)
 @objc public class NetworkRequestInterceptor: NSObject{
 
     class func swizzleProtocolClasses(){
@@ -31,6 +32,7 @@ import Foundation
     }
 }
 
+@available(iOS 13.0, *)
 extension URLSessionConfiguration {
     
     @objc func fakeProcotolClasses() -> [AnyClass]? {
