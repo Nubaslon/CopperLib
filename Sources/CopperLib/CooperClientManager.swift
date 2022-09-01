@@ -22,8 +22,8 @@ import Network
 @available(iOS 13.0, *)
 class CopperClientManager: ConnectionDeleagate {
     private var connectionState: State = .pending
-    var darkLighPort = USBPortWrapper()
-    var nerworkPort = NetworkPort()
+    var darkLighPort: USBPortWrapper?
+    var nerworkPort: NetworkPort?
     var currentProto: CopperProtocol?
     
     private var plugins = [Plugin]()
@@ -37,14 +37,16 @@ class CopperClientManager: ConnectionDeleagate {
     
     init() {
         startNewPorts()
-        darkLighPort.connectionDelegate = self
     }
     
     func startNewPorts() {
         currentProto = nil
-        nerworkPort.netConnection.cancel()
+        darkLighPort = nil
+        nerworkPort?.netConnection.cancel()
         nerworkPort = NetworkPort()
-        nerworkPort.connectionDelegate = self
+        nerworkPort?.connectionDelegate = self
+        darkLighPort = USBPortWrapper()
+        darkLighPort?.connectionDelegate = self
     }
     
     func registerPlugin(plugin: Plugin) {
@@ -126,15 +128,27 @@ class USBPortWrapper: NSObject, PTChannelDelegate, CopperDevice {
     weak var infoDelegate: DeviceInfoDelegate?
     
     override init() {
-        super.init()
+        super.init()        
+        openPort()
+    }
+    
+    func openPort() {
         self.port = PTChannel(protocol: nil, delegate: self)
-        self.port?.listen(on: 13129, IPv4Address: INADDR_LOOPBACK, callback: { error in
-            assert(error == nil, "Failed open port")
+        self.port?.listen(on: 13129, IPv4Address: INADDR_LOOPBACK, callback: {[weak self] error in
+            if let error = error {
+                print("Failed to open USB port \(error.localizedDescription)")
+                self?.port?.cancel()
+                self?.port?.close()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self?.openPort()
+                }
+            }
         })
     }
     
     func close() {
-        self.port?.close()
+        port?.cancel()
+        port?.close()
     }
     
     func channel(_ channel: PTChannel, shouldAcceptFrame type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
