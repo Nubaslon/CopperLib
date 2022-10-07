@@ -165,7 +165,7 @@ class CopperLogHandler: LogHandler {
             message.name = logName
             message.log = String(data: data, encoding: .utf8) ?? "Error encode"
         }))
-        synchronized(writeStream) {
+        synchronized(encryptor) {
             let encryptedData = try! encryptor.encrypt(data: .init(data: data.encodeCOBS() + [0]))
             _ = encryptedData.asData.withUnsafeBytes { writeStream.write($0, maxLength: encryptedData.count) }
         }

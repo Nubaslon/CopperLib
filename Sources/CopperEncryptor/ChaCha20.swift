@@ -10,7 +10,7 @@ import Foundation
 import CopperEncryptorChaCha20
 #endif
 
-public final class ChaCha20 {
+public final class ChaCha20: NSObject {
 
     public static let nonceSize = 12
     private let blockSize = 64
