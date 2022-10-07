@@ -210,8 +210,10 @@ class NetworkHandler {
         }))
         queue.async {[weak self] in
             guard let self = self else { return }
-            let encryptedData = try! self.encryptor.encrypt(data: .init(data: data.encodeCOBS() + [0]))
-            _ = encryptedData.asData.withUnsafeBytes { self.writeStream.write($0, maxLength: encryptedData.count) }
+            synchronized(self.writeStream) {
+                let encryptedData = try! self.encryptor.encrypt(data: .init(data: data.encodeCOBS() + [0]))
+                _ = encryptedData.asData.withUnsafeBytes { self.writeStream.write($0, maxLength: encryptedData.count) }
+            }
         }
     }
      

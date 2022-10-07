@@ -17,7 +17,7 @@ class USBDeviceManager: NSObject, PTChannelDelegate {
     weak var delegate: DeviceManagerDelegate?
     let notificationCenter = NotificationCenter.default
     var allDeviceList = Array<USBDeviceWrapper>()
-    
+    var lastKnowDeviceID: NSNumber?
     override init() {
         super.init()
         
@@ -28,11 +28,7 @@ class USBDeviceManager: NSObject, PTChannelDelegate {
             guard let deviceID = notification.userInfo?[PTUSBHubNotificationKey.deviceID] as? NSNumber else {
                 return
             }
-            let listningChannel = PTChannel(protocol: nil, delegate: self)
-            listningChannel.userInfo = deviceID
-            listningChannel.connect(to: 13129, over: PTUSBHub.shared(), deviceID: deviceID, callback: { error in
-                self?.device(didConnect: listningChannel)
-            })
+            self?.connectTo(deviceID: deviceID)
         }
         notificationCenter.addObserver(forName: NSNotification.Name.deviceDidDetach, object: PTUSBHub.shared(), queue: nil) {[weak self] notification in
             guard let deviceID = notification.userInfo?[PTUSBHubNotificationKey.deviceID] as? NSNumber else {
@@ -46,6 +42,15 @@ class USBDeviceManager: NSObject, PTChannelDelegate {
                 currentChannel.close()
             }
         }
+    }
+    
+    func connectTo(deviceID: NSNumber) {
+        let listningChannel = PTChannel(protocol: nil, delegate: self)
+        listningChannel.userInfo = deviceID
+        listningChannel.connect(to: 13129, over: PTUSBHub.shared(), deviceID: deviceID, callback: {[weak self] error in
+            self?.device(didConnect: listningChannel)
+            self?.lastKnowDeviceID = deviceID
+        })
     }
         
     public func device(didDisconnect device: PTChannel) {
@@ -74,6 +79,11 @@ class USBDeviceManager: NSObject, PTChannelDelegate {
         wrapperFor(device: channel).deviceDidDisconnect()
         if delegate?.currentDevice == wrapperFor(device: channel) {
             delegate?.currentDevice = nil
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if let deviceID = self.lastKnowDeviceID {
+                self.connectTo(deviceID: deviceID)
+            }
         }
     }
     

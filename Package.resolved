@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "PeerTalk",
-        "repositoryURL": "https://github.com/treastrain/peertalk.git",
+        "package": "Peertalk",
+        "repositoryURL": "https://github.com/kokluch/peertalk",
         "state": {
-          "branch": "swift-package-manager",
-          "revision": "adb78527d8a4c8cfff83181bf5d8d9b3a8669715",
-          "version": null
+          "branch": null,
+          "revision": "49449a757c72b7ebf3641e274d32b5b35dd20ae4",
+          "version": "0.2.0"
         }
       },
       {
