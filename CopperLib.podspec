@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.default_subspec = 'Core'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '14.0'
   s.pod_target_xcconfig = {
       'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'FROM_COCOAPODS',
   }
